@@ -11,8 +11,7 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
-  boot.extraModulePackages = with config.boot.kernelPackages; [ r8125 ];
+  boot.extraModulePackages = [ ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/55cc43eb-80d9-41eb-abb0-975e31b77c03";
@@ -23,21 +22,6 @@
     { device = "/dev/disk/by-uuid/2A24-3D41";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
-    };
-
-  fileSystems."/run/media/winterbear/backups" =
-    { device = "/dev/disk/by-uuid/853cdbe4-9847-44cd-8183-5e7ad6a5d076";
-      fsType = "ext4";
-    };
-
-  fileSystems."/run/media/winterbear/draconis" =
-    { device = "/dev/disk/by-uuid/0b42ed6b-a632-444a-b8f2-9d65b6cd51e2";
-      fsType = "ext4";
-    };
-
-  fileSystems."/run/media/winterbear/eris" =
-    { device = "/dev/disk/by-uuid/923716d1-7ff9-4187-901a-57c241fa5ab8"; 
-      fsType = "ext4";
     };
 
   swapDevices = [ ];

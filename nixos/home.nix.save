@@ -1,0 +1,98 @@
+{ config, pkgs, ... }:
+
+
+let
+  additionalJDKs = with pkgs; [ jdk8 jdk17 jdk21_headless ];
+in
+{
+  home-manager.users.winterbear = {
+    home.stateVersion = "24.11";
+    home.packages = with pkgs; [
+      neofetch 
+      btop
+      #discord
+      #webcord
+      vesktop
+      #starship
+      #asciiquarium
+      pipes
+      neo
+      #cbonsai
+      tty-clock
+      filezilla
+      ani-cli
+      obsidian
+      #prismlauncher-unwrapped
+      (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21_headless ]; })
+      aseprite-unfree
+      spotify
+      #spicetify-cli
+      #vscode-fhs
+      gimp
+      jdk21_headless
+      #openjdk17-bootstrap
+      audacity
+      steam
+      lutris
+      glfw
+      _1password-gui
+      oh-my-posh
+      obs-studio
+      kdePackages.kdenlive
+      vlc
+      blockbench
+      krusader
+      krename
+      kdePackages.kompare
+      zip 
+      thunderbird # email client
+      protonmail-bridge # bridge for connecting to proton imap/smtp servers
+      xpipe # ssh connection manager
+      jetbrains.idea-community #intellij
+      handbrake # video encoding
+      cifs-utils
+      jdiskreport
+      godot_4
+      ldmtool
+      picard
+      blender
+      wine
+      protonup
+      protonup-qt
+      mangohud
+      dosbox
+      xorg.xorgserver
+      virt-manager
+      virt-viewer
+      spice
+      spice-gtk
+      spice-protocol
+      win-virtio
+      win-spice
+    ];
+    programs.oh-my-posh = {
+      enable = true;
+      useTheme = "amro";
+      enableFishIntegration = true;
+      #settings = builtins.fromJSON (builtins.unsafeDiscardStringContext ( "{ \"disable_notice\": true }" ) );
+    };
+    programs.fish = {
+      enable = true;
+      interactiveShellInit = "neofetch";
+    };
+
+    home.sessionVariables = {
+	STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
+    };
+
+    home.sessionPath = [ "$HOME/.jdks" ];
+    home.file = (builtins.listToAttrs (builtins.map (jdk: {
+    name = ".jdks/${jdk.version}";
+    value = { source = jdk; };
+    }) additionalJDKs));
+
+
+  };
+
+
+}
